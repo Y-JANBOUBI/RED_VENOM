@@ -1,7 +1,6 @@
 # 🔴 Red_Venom - Advanced Payload Generation Tool
 
-![Red_Venom Security Tool](https://via.placeholder.com/800x200.png?text=Red_Venom+Banner)  
-*Placeholder for banner image: image.png*
+![image](https://github.com/user-attachments/assets/408d7e07-6d9d-46d3-b53a-a57606b12366)
 
 > Developed by **Y. Janboubi** | Version: `1.0`  
 > ⚠️ **Disclaimer**: Red_Venom is intended strictly for educational and research purposes. Unauthorized or malicious use is prohibited.
@@ -58,6 +57,8 @@ Red_Venom integrates cutting-edge methods to enhance payload stealth:
 ## 🚀 Usage
 
 **Red_Venom** is a command-line tool designed for advanced customization. Use the following syntax and options to generate and deploy payloads.
+
+![image](https://github.com/user-attachments/assets/1a8694fe-cbe2-46bc-b7e7-d03de7406ce4)
 
 ### 🛠️ Command Syntax
 
