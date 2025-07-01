@@ -58,7 +58,8 @@ Red_Venom integrates cutting-edge methods to enhance payload stealth:
 
 **Red_Venom** is a command-line tool designed for advanced customization. Use the following syntax and options to generate and deploy payloads.
 
-![image](https://github.com/user-attachments/assets/1a8694fe-cbe2-46bc-b7e7-d03de7406ce4)
+![image](https://github.com/user-attachments/assets/d0ddb5c9-c6ed-4d8b-8b5d-b4e6bb55551e)
+
 
 ### 🛠️ Command Syntax
 
