@@ -148,12 +148,12 @@ Pre-compiled binaries for Windows are available in the [Releases](https://github
 
 ## 📬 Contact
 
-- **GitHub**: [github.com/Y-JANBOUBI/RED_VENOM](https://github.com/Y-JANBOUBI/RED_VENOM)
-- **Email**: `your.email@example.com`
+For questions, bug reports, contact me at [https://github.com/Y-JANBOUBI].
 
 ---
 
-**Developed** by Y.JANBOUBI V1.0
+*Developed by Y.Janboubi V1.0*  
+
 
 
 
